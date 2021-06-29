@@ -30,10 +30,10 @@ p{
     margin-top: 0.2cm;
 }
 .color_changer{
-    margin: 0 0.5cm;
+    margin: 0 0.3cm;
     height: 0.6cm;
 }
-#random, #reset{
+#random, #reset, #erase{
     background: #5194b3;
     border: none;
     border-radius: 0.15cm;

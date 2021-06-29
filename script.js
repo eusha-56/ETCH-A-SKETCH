@@ -4,6 +4,8 @@ let color_picker_text = document.querySelector("#color_picker_text")
 let color_picker = document.querySelector("#color_picker")
 let hex_color = document.querySelector("#hex_color")
 let random = document.getElementById("random")
+let eraser = document.querySelector("#erase")
+let erase = false
 let range = 16
 let color = "#000000"
 let random_color = false
@@ -31,10 +33,13 @@ document.querySelector("#reset").addEventListener("click", () => {
     grid_maker(range)
     random_color = true
     onclick_random()
+    erase = true
+    onclick_erase()
     color = "#000000"
     color_picker.value = color    
     hex_color.value = color
 })
+eraser.addEventListener("click", onclick_erase)
 
 document.querySelector("body").addEventListener("load", grid_maker(16))
 
@@ -66,20 +71,27 @@ function grid_maker(n) {
 function color_chooser() {
     if (random_color) {
         return random_color_maker()
-    }else{
-        return color
     }
+    if (erase) {
+        return "#ffffff"
+    }
+    return color
+    
 }
 function onclick_random() {
     if (!random_color) {
         random.style.background = "#f35314"
+        erase = true
+        onclick_erase()
         color_picker.style.opacity = "0.3"
         hex_color.style.opacity = "0.3"
+        eraser.style.opacity = "0.3"
         color_picker_text.innerHTML = "Current box color is Random"
     } else {
         random.style.background = "#5194b3"
         color_picker.style.opacity = "1"
         hex_color.style.opacity = "1"
+        eraser.style.opacity = "1"
         color_picker_text.innerHTML = "Current box color is " + color
     }
     random_color = !random_color
@@ -90,5 +102,23 @@ function random_color_maker() {
     var b = Math.floor(Math.random() * 255)
     return `rgb(${r}, ${g}, ${b})`
 }
-
+function onclick_erase() {
+    if (!erase) {
+        eraser.style.background = "#f35314"
+        random_color = true
+        onclick_random()
+        color_picker.style.opacity = "0.3"
+        hex_color.style.opacity = "0.3"
+        random.style.opacity = "0.3"
+        color_picker_text.innerHTML = "Current box color will be erased"
+    } else {
+        eraser.style.background = "#5194b3"
+        color_picker.style.opacity = "1"
+        hex_color.style.opacity = "1"
+        random.style.opacity = "1"
+        color_picker_text.innerHTML = "Current box color is " + color
+    }
+    color_chooser()
+    erase = !erase
+}
 document.querySelector("#random").addEventListener("click",onclick_random)
